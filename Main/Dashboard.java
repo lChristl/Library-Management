@@ -28,7 +28,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Dashboard {
+public class Book {
 
 	private JFrame frmLibmanage;
 	private JTable table;
@@ -40,7 +40,7 @@ public class Dashboard {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard window = new Dashboard();
+					Book window = new Book();
 					window.frmLibmanage.setVisible(true);
 					window.frmLibmanage.setState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
@@ -54,7 +54,7 @@ public class Dashboard {
 	/**
 	 * Create the application.
 	 */
-	public Dashboard() {
+	public Book() {
 		initialize();
 	}
 
@@ -93,7 +93,6 @@ public class Dashboard {
 		JLabel lblNewLabel_4 = new JLabel("\r");
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel_4.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/home (2) (1).png")));
 		lblNewLabel_4.setBounds(30, 200, 87, 87);
 		panel.add(lblNewLabel_4);
 		
@@ -105,7 +104,6 @@ public class Dashboard {
 				frmLibmanage.dispose();
 			}
 		});
-		lblNewLabel_4_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/book (1).png")));
 		lblNewLabel_4_1.setBounds(30, 400, 87, 87);
 		panel.add(lblNewLabel_4_1);
 		
@@ -119,7 +117,6 @@ public class Dashboard {
 		JLabel lblNewLabel_4_1_1 = new JLabel("\r\n");
 		lblNewLabel_4_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel_4_1_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/file (1) (1).png")));
 		lblNewLabel_4_1_1.setBounds(26, 600, 87, 87);
 		panel.add(lblNewLabel_4_1_1);
 		
@@ -212,23 +209,6 @@ public class Dashboard {
 		scrollPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.DARK_GRAY));
 		scrollPane.setBounds(170, 668, 1114, 362);  // explicit size and position
 		frmLibmanage.getContentPane().add(scrollPane);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1308, 0, 616, 1062);
-		frmLibmanage.getContentPane().add(panel_2);
-		
-		JLabel lblNewLabel_1 = new JLabel("Book List");
-		lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 32));
-		lblNewLabel_1.setBounds(170, 604, 400, 53);
-		frmLibmanage.getContentPane().add(lblNewLabel_1);
-		
-		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setForeground(Color.BLACK);
-		scrollPane_1.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		scrollPane_1.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.DARK_GRAY));
-		scrollPane_1.setBackground(Color.LIGHT_GRAY);
-		scrollPane_1.setBounds(170, 231, 1114, 362);
-		frmLibmanage.getContentPane().add(scrollPane_1);
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 		    @Override
