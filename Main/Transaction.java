@@ -11,6 +11,7 @@ import java.awt.Window.Type;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +24,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
+import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -67,7 +70,6 @@ public class Transaction {
 	 */
 	private void initialize() {
 		frmLibmanage = new JFrame();
-		frmLibmanage.setType(Type.UTILITY);
 		frmLibmanage.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLibmanage.setTitle("LibManage");
 		frmLibmanage.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -79,7 +81,7 @@ public class Transaction {
 		frmLibmanage.setBounds(0, 0, 1940, 1080);
 		frmLibmanage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLibmanage.getContentPane().setLayout(null);
-
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 150, 1062);
 		panel.setBackground(new Color(255, 255, 255));
@@ -87,7 +89,7 @@ public class Transaction {
 		panel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		frmLibmanage.getContentPane().add(panel);
 		panel.setLayout(null);
-
+		
 		JLabel lblNewLabel_3 = new JLabel("Home");
 		lblNewLabel_3.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,28 +97,42 @@ public class Transaction {
 		lblNewLabel_3.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3.setBounds(30, 275, 87, 23);
 		panel.add(lblNewLabel_3);
-
+		lblNewLabel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Dashboard.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		
 		JLabel lblNewLabel_4 = new JLabel("\r");
 		lblNewLabel_4.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setHorizontalTextPosition(SwingConstants.CENTER);
-//		lblNewLabel_4.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/home (2) (1).png")));
+		lblNewLabel_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Dashboard.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		lblNewLabel_4.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/home (2) (1).png")));
 		lblNewLabel_4.setBounds(30, 200, 87, 87);
 		panel.add(lblNewLabel_4);
-
+		
 		JLabel lblNewLabel_4_1 = new JLabel("\r\n");
 		lblNewLabel_4_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				Book.main(new String[] {});
-//				frmLibmanage.dispose();
+				Book.main(new String[]{});
+				frmLibmanage.dispose();
 			}
 		});
-//		lblNewLabel_4_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/book (1).png")));
+		lblNewLabel_4_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/book (1).png")));
 		lblNewLabel_4_1.setBounds(30, 400, 87, 87);
 		panel.add(lblNewLabel_4_1);
-
+		
 		JLabel lblNewLabel_3_1 = new JLabel("Library");
 		lblNewLabel_3_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3_1.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -124,15 +140,29 @@ public class Transaction {
 		lblNewLabel_3_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3_1.setBounds(30, 468, 87, 23);
 		panel.add(lblNewLabel_3_1);
-
+		lblNewLabel_3_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Book.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		
 		JLabel lblNewLabel_4_1_1 = new JLabel("\r\n");
 		lblNewLabel_4_1_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
-//		lblNewLabel_4_1_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/file (1) (1).png")));
+		lblNewLabel_4_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Transaction.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		lblNewLabel_4_1_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/file (1) (1).png")));
 		lblNewLabel_4_1_1.setBounds(26, 600, 87, 87);
 		panel.add(lblNewLabel_4_1_1);
-
+		
 		JLabel lblNewLabel_3_1_1 = new JLabel("Transaction");
 		lblNewLabel_3_1_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -140,13 +170,27 @@ public class Transaction {
 		lblNewLabel_3_1_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3_1_1.setBounds(12, 670, 128, 23);
 		panel.add(lblNewLabel_3_1_1);
-
+		lblNewLabel_3_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Transaction.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		
 		JLabel lblNewLabel_4_1_2 = new JLabel("\r\n");
 		lblNewLabel_4_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblNewLabel_4_1_2.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/settings (2).png")));
-		lblNewLabel_4_1_2.setBounds(12, 922, 128, 87);
+		lblNewLabel_4_1_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Setting.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		lblNewLabel_4_1_2.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/settings (2).png")));
+		lblNewLabel_4_1_2.setBounds(12, 922, 130, 87);
 		panel.add(lblNewLabel_4_1_2);
-
+		
 		JLabel lblNewLabel_3_1_1_1 = new JLabel("Setting");
 		lblNewLabel_3_1_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,25 +198,38 @@ public class Transaction {
 		lblNewLabel_3_1_1_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3_1_1_1.setBounds(26, 998, 101, 23);
 		panel.add(lblNewLabel_3_1_1_1);
-
+		lblNewLabel_3_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Setting.main(new String[]{});
+				frmLibmanage.dispose();
+			}
+		});
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(144, 0, 1780, 150);
+		panel_1.setBounds(101, 0, 1823, 150);
 		panel_1.setBackground(new Color(103, 0, 0));
 		panel_1.setBorder(new MatteBorder(0, 0, 3, 0, (Color) new Color(28, 28, 28)));
 		frmLibmanage.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-
+		
 		JLabel lblNewLabel_2 = new JLabel("LIBRIS");
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setFont(new Font("Montserrat Black", Font.PLAIN, 50));
 		lblNewLabel_2.setBounds(71, 45, 270, 65);
 		panel_1.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel = new JLabel("Transaction List");
+		lblNewLabel.setForeground(new Color(28, 28, 28));
+		lblNewLabel.setBounds(170, 161, 411, 65);
+		lblNewLabel.setFont(new Font("Monospaced", Font.BOLD, 32));
+		frmLibmanage.getContentPane().add(lblNewLabel);
 
 		String[][] data = null;
 		String[] column = { "Status", "Book ID", "Book Title", "Student" };
 
 		try {
-			MongoCollection<Document> collection = DB.getDatabase().getCollection("Transactions");
+			MongoCollection<Document> collection = DB.getDatabase().getCollection("Transaction");
 
 			int rows = (int) collection.countDocuments();
 			int cols = column.length;
@@ -188,7 +245,7 @@ public class Transaction {
 				originalData[count][0] = status;
 				data[count][1] = doc.getString("book_id") != null ? doc.getString("book_id") : "";
 				originalData[count][1] = data[count][1];
-				data[count][2] = doc.getString("book_title") != null ? doc.getString("book_title") : "";
+				data[count][2] = doc.getString("title") != null ? doc.getString("title") : "";
 				originalData[count][2] = data[count][2];
 				data[count][3] = doc.getString("student") != null ? doc.getString("student") : "";
 				originalData[count][3] = data[count][3];
@@ -236,7 +293,7 @@ public class Transaction {
 		table.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		table.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(28, 28, 28)));
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(264, 375, 1103, 528);
+		scrollPane.setBounds(198, 320, 1670, 583);
 		scrollPane.setForeground(Color.BLACK);
 		scrollPane.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		scrollPane.setBackground(new Color(128, 0, 0));
@@ -247,18 +304,14 @@ public class Transaction {
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
 		table.setRowSorter(sorter);
 
-		JLabel lblNewLabel = new JLabel("Transaction List");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblNewLabel.setBounds(182, 174, 381, 52);
-		frmLibmanage.getContentPane().add(lblNewLabel);
-
 		JLabel lblNewLabel_1 = new JLabel("Borrowed " + borrowedCount);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_1.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
 		lblNewLabel_1.setBounds(264, 929, 204, 52);
 		frmLibmanage.getContentPane().add(lblNewLabel_1);
 
 		textField = new JTextField();
-		textField.setBounds(385, 285, 499, 47);
+		textField.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		textField.setBounds(429, 233, 499, 47);
 		frmLibmanage.getContentPane().add(textField);
 		textField.setColumns(10);
 
@@ -291,18 +344,18 @@ public class Transaction {
 			}
 		});
 
-		JLabel lblNewLabel_5 = new JLabel("Search");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblNewLabel_5.setBounds(263, 285, 112, 47);
+		JLabel lblNewLabel_5 = new JLabel("Search :");
+		lblNewLabel_5.setFont(new Font("Montserrat Black", Font.PLAIN, 30));
+		lblNewLabel_5.setBounds(266, 233, 160, 47);
 		frmLibmanage.getContentPane().add(lblNewLabel_5);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Returned " + returnedCount);
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_1_1.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
 		lblNewLabel_1_1.setBounds(618, 929, 204, 52);
 		frmLibmanage.getContentPane().add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_2 = new JLabel("Overdue " + overdueCount);
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_1_2.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
 		lblNewLabel_1_2.setBounds(953, 929, 204, 52);
 		frmLibmanage.getContentPane().add(lblNewLabel_1_2);
 
