@@ -27,8 +27,10 @@ import com.mongodb.client.MongoCursor;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
+import java.awt.Window.Type;
 
-public class Book {
+public class Dashboard {
 
 	private JFrame frmLibmanage;
 	private JTable table;
@@ -40,7 +42,7 @@ public class Book {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Book window = new Book();
+					Dashboard window = new Dashboard();
 					window.frmLibmanage.setVisible(true);
 					window.frmLibmanage.setState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
@@ -54,7 +56,7 @@ public class Book {
 	/**
 	 * Create the application.
 	 */
-	public Book() {
+	public Dashboard() {
 		initialize();
 	}
 
@@ -63,6 +65,7 @@ public class Book {
 	 */
 	private void initialize() {
 		frmLibmanage = new JFrame();
+		frmLibmanage.setType(Type.UTILITY);
 		frmLibmanage.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLibmanage.setTitle("LibManage");
 		frmLibmanage.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -76,27 +79,31 @@ public class Book {
 		frmLibmanage.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(new MatteBorder(0, 0, 0, 3, (Color) Color.DARK_GRAY));
-		panel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		panel.setBounds(0, 0, 150, 1062);
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new MatteBorder(0, 0, 0, 3, (Color) new Color(28, 28, 28)));
+		panel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		frmLibmanage.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Home");
+		lblNewLabel_3.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel_3.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		lblNewLabel_3.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3.setBounds(30, 275, 87, 23);
 		panel.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("\r");
+		lblNewLabel_4.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_4.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/home (2) (1).png")));
 		lblNewLabel_4.setBounds(30, 200, 87, 87);
 		panel.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_4_1 = new JLabel("\r\n");
+		lblNewLabel_4_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -104,45 +111,65 @@ public class Book {
 				frmLibmanage.dispose();
 			}
 		});
+		lblNewLabel_4_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/book (1).png")));
 		lblNewLabel_4_1.setBounds(30, 400, 87, 87);
 		panel.add(lblNewLabel_4_1);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Library");
+		lblNewLabel_3_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3_1.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		lblNewLabel_3_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
 		lblNewLabel_3_1.setBounds(30, 468, 87, 23);
 		panel.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel_4_1_1 = new JLabel("\r\n");
+		lblNewLabel_4_1_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_4_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_4_1_1.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/file (1) (1).png")));
 		lblNewLabel_4_1_1.setBounds(26, 600, 87, 87);
 		panel.add(lblNewLabel_4_1_1);
 		
 		JLabel lblNewLabel_3_1_1 = new JLabel("Transaction");
+		lblNewLabel_3_1_1.setForeground(new Color(28, 28, 28));
 		lblNewLabel_3_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		lblNewLabel_3_1_1.setBounds(26, 670, 101, 23);
+		lblNewLabel_3_1_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		lblNewLabel_3_1_1.setBounds(12, 670, 128, 23);
 		panel.add(lblNewLabel_3_1_1);
 		
+		JLabel lblNewLabel_4_1_2 = new JLabel("\r\n");
+		lblNewLabel_4_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4_1_2.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/settings (2).png")));
+		lblNewLabel_4_1_2.setBounds(12, 922, 130, 87);
+		panel.add(lblNewLabel_4_1_2);
+		
+		JLabel lblNewLabel_3_1_1_1 = new JLabel("Setting");
+		lblNewLabel_3_1_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_1.setForeground(new Color(28, 28, 28));
+		lblNewLabel_3_1_1_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		lblNewLabel_3_1_1_1.setBounds(26, 998, 101, 23);
+		panel.add(lblNewLabel_3_1_1_1);
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(128, 0, 0));
-		panel_1.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.DARK_GRAY));
 		panel_1.setBounds(101, 0, 1823, 150);
+		panel_1.setBackground(new Color(103, 0, 0));
+		panel_1.setBorder(new MatteBorder(0, 0, 3, 0, (Color) new Color(28, 28, 28)));
 		frmLibmanage.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("LibManage");
+		JLabel lblNewLabel_2 = new JLabel("LIBRIS");
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setFont(new Font("Century Gothic", Font.BOLD, 45));
+		lblNewLabel_2.setFont(new Font("Montserrat Black", Font.PLAIN, 50));
 		lblNewLabel_2.setBounds(71, 45, 270, 65);
 		panel_1.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel = new JLabel("Recent Transactions");
-		lblNewLabel.setFont(new Font("Monospaced", Font.BOLD, 32));
+		lblNewLabel.setForeground(new Color(28, 28, 28));
 		lblNewLabel.setBounds(170, 161, 411, 65);
+		lblNewLabel.setFont(new Font("Monospaced", Font.BOLD, 32));
 		frmLibmanage.getContentPane().add(lblNewLabel);
 		
 		String[][] data = null;
@@ -154,12 +181,14 @@ public class Book {
 		    Document firstDoc = collection.find().first();
 		    if (firstDoc != null) {
 		        String[] allColumns = firstDoc.keySet().toArray(new String[0]);
-		        column = new String[allColumns.length - 1];
-		        System.arraycopy(allColumns, 1, column, 0, allColumns.length - 1);
+
+		        int newLength = allColumns.length - 2;
+		        column = new String[newLength];
+
+		        System.arraycopy(allColumns, 1, column, 0, newLength);
 		    }
-		    
-		    long rowsCount = collection.countDocuments();
-		    int rows = (int) rowsCount;
+
+		    int rows = (int) collection.countDocuments();
 
 		    int cols = column.length;
 		    data = new String[rows][cols];
@@ -168,6 +197,7 @@ public class Book {
 		    int count = 0;
 		    while (cursor.hasNext()) {
 		        Document doc = cursor.next();
+
 		        for (int i = 0; i < cols; i++) {
 		            Object value = doc.get(column[i]);
 		            data[count][i] = value != null ? value.toString() : "";
@@ -203,12 +233,30 @@ public class Book {
 		table.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		table.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(170, 668, 1114, 362);
 		scrollPane.setForeground(Color.BLACK);
 		scrollPane.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		scrollPane.setBackground(Color.LIGHT_GRAY);
-		scrollPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.DARK_GRAY));
-		scrollPane.setBounds(170, 668, 1114, 362);  // explicit size and position
+		scrollPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(28, 28, 28)));
 		frmLibmanage.getContentPane().add(scrollPane);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(1308, 0, 616, 1062);
+		frmLibmanage.getContentPane().add(panel_2);
+		
+		JLabel lblNewLabel_1 = new JLabel("Book List");
+		lblNewLabel_1.setForeground(new Color(28, 28, 28));
+		lblNewLabel_1.setBounds(170, 604, 400, 53);
+		lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 32));
+		frmLibmanage.getContentPane().add(lblNewLabel_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		scrollPane_1.setBounds(170, 231, 1114, 362);
+		scrollPane_1.setForeground(Color.BLACK);
+		scrollPane_1.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		scrollPane_1.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(28, 28, 28)));
+		scrollPane_1.setBackground(Color.LIGHT_GRAY);
+		frmLibmanage.getContentPane().add(scrollPane_1);
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 		    @Override
