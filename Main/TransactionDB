@@ -1,0 +1,108 @@
+package mongoJava;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
+
+public class TransactionDB {
+	public static int save(String status, String bookId, String bookTitle, String studentName) {
+				MongoCollection<Document> collection = DB.getDatabase().getCollection("Transaction");
+
+					// Step 1 — Update book availability
+					int status1 = updateBook(bookId);
+					if (status1 == 0) return 0;  // book not available
+
+// Step 2 — Insert into issuebooks
+					Document issueDoc = new Document()
+							.append("status", status)
+							.append("book_id", bookId)
+							.append("title", bookTitle)
+							.append("student", studentName);
+
+					collection.insertOne(issueDoc);
+
+					return 1;
+	}
+	
+	public static int updateBook(String bookId) {
+        MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+
+        // Find book
+        Document book = collection.find(Filters.eq("ID", bookId)).first();
+        if (book == null) return 0;
+
+        int available = book.getInteger("Available", 0);
+        int transacted = book.getInteger("Transacted", 0);
+
+        if (available <= 0) return 0; // no stock
+
+        // Update values
+        collection.updateOne(
+            Filters.eq("ID", bookId),
+            Updates.combine(
+                Updates.set("Available", available - 1),
+                Updates.set("Transacted", transacted + 1)
+            )
+        );
+
+        return 1;
+    }
+	
+	public static int updatestatus(String id, String status, String bookId, String bookTitle, String studentName) {
+		
+		 int status1 = 0;
+		    try {
+		MongoCollection<Document> collection = DB.getDatabase().getCollection("Transaction");
+		
+		 	Bson filter = Filters.eq("_id", new ObjectId(id));
+
+			
+			Bson updates = Updates.combine(
+			            Updates.set("status", status),
+			            Updates.set("book_id", bookId),
+			            Updates.set("title", bookTitle),
+			            Updates.set("student", studentName)
+			        );
+
+			UpdateResult result = collection.updateOne(filter, updates);
+
+	        status1 = (int) result.getModifiedCount();
+	        
+	        if (status1 > 0 && status.equalsIgnoreCase("Returned")) {
+	            updateBookReturned(bookId);
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+		    return status1;
+	}
+	
+	public static int updateBookReturned(String bookId) {
+	    MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+
+	    // Find book
+	    Document book = collection.find(Filters.eq("ID", bookId)).first();
+	    if (book == null) return 0;
+
+	    int available = book.getInteger("Available", 0);
+	    int transacted = book.getInteger("Transacted", 0);
+
+	    // Update values for returned book:
+	    collection.updateOne(
+	        Filters.eq("ID", bookId),
+	        Updates.combine(
+	            Updates.set("Available", available + 1),    // add 1
+	            Updates.set("Transacted", transacted - 1)   // minus 1
+	        )
+	    );
+
+	    return 1;
+	}
+}
+
