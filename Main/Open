@@ -1,0 +1,113 @@
+package mongoJava;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalExclusionType;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Open {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Open window = new Open();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Open() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SignUp.class.getResource("/mongoJava/photos/Libris_logo (2) (3).png")));
+		frame.getContentPane().setFont(new Font("Century Gothic", Font.BOLD, 18));
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.setTitle("LibManage");
+		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
+		frame.setPreferredSize(new Dimension(1920, 1080));
+		frame.setAutoRequestFocus(false);
+		frame.setBounds(0, 0, 1940, 1080);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(128, 0, 0));
+		panel_2.setBounds(0, 0, 1934, 227);
+		frame.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setBounds(617, 289, 721, 675);
+		frame.getContentPane().add(lblNewLabel_5);
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setIcon(new ImageIcon(LogIn.class.getResource("/mongoJava/photos/Libris_logo (2).png")));
+		
+		JLabel lblNewLabel_7 = new JLabel("Sign Up");
+		lblNewLabel_7.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SignUp.main(new String[]{});
+				frame.dispose();
+			}
+		});
+		lblNewLabel_7.setOpaque(true);
+		lblNewLabel_7.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_7.setForeground(new Color(28, 28, 28));
+		lblNewLabel_7.setFont(new Font("Montserrat Black", Font.PLAIN, 50));
+		lblNewLabel_7.setBorder(new MatteBorder(10, 10, 10, 10, (Color) new Color(103, 0, 0)));
+		lblNewLabel_7.setBackground(Color.WHITE);
+		lblNewLabel_7.setBounds(318, 618, 426, 200);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_7_1 = new JLabel("Log In");
+		lblNewLabel_7_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				LogIn.main(new String[]{});
+				frame.dispose();
+			}
+		});
+		lblNewLabel_7_1.setOpaque(true);
+		lblNewLabel_7_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_7_1.setForeground(new Color(28, 28, 28));
+		lblNewLabel_7_1.setFont(new Font("Montserrat Black", Font.PLAIN, 50));
+		lblNewLabel_7_1.setBorder(new MatteBorder(10, 10, 10, 10, (Color) new Color(103, 0, 0)));
+		lblNewLabel_7_1.setBackground(Color.WHITE);
+		lblNewLabel_7_1.setBounds(1208, 618, 426, 200);
+		frame.getContentPane().add(lblNewLabel_7_1);
+	}
+}
