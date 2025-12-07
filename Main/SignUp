@@ -1,0 +1,195 @@
+package mongoJava;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.Dialog.ModalExclusionType;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import javax.swing.border.MatteBorder;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SignUp {
+
+    private JFrame frame;
+    private JTextField textField_1;
+    private JTextField textField;
+    private JTextField textField_2;
+    private JTextField textField_3;
+
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                SignUp window = new SignUp();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public SignUp() {
+        initialize();
+    }
+
+    private void initialize() {
+		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SignUp.class.getResource("/mongoJava/photos/Libris_logo (2) (3).png")));
+		frame.getContentPane().setFont(new Font("Century Gothic", Font.BOLD, 18));
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.setTitle("LibManage");
+		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
+		frame.setPreferredSize(new Dimension(1920, 1080));
+		frame.setAutoRequestFocus(false);
+		frame.setBounds(0, 0, 1940, 1080);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(1053, 289, 766, 686);
+		frame.getContentPane().add(panel);
+		
+		JLabel lblNewLabel_5 = new JLabel("New label");
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setIcon(new ImageIcon(LogIn.class.getResource("/mongoJava/photos/Libris_logo (2).png")));
+		panel.add(lblNewLabel_5);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(128, 0, 0));
+		panel_2.setBounds(0, 0, 1934, 227);
+		frame.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("LIBRIS");
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBackground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Montserrat Black", Font.PLAIN, 99));
+		lblNewLabel_3.setBounds(52, 48, 475, 136);
+		panel_2.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Sign Up");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Montserrat Black", Font.PLAIN, 65));
+		lblNewLabel_4.setBounds(1544, 48, 298, 136);
+		panel_2.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_1 = new JLabel("Email :");
+		lblNewLabel_1.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		lblNewLabel_1.setBounds(244, 495, 110, 25);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Password :");
+		lblNewLabel_2.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		lblNewLabel_2.setBounds(244, 622, 242, 25);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_51 = new JLabel("Confirm Password :");
+		lblNewLabel_51.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		lblNewLabel_51.setBounds(244, 747, 363, 25);
+		frame.getContentPane().add(lblNewLabel_51);
+		
+		JLabel lblNewLabel = new JLabel("Sign Up");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setForeground(new Color(28, 28, 28));
+		lblNewLabel.setFont(new Font("Montserrat Black", Font.PLAIN, 50));
+		lblNewLabel.setBounds(421, 289, 258, 62);
+		frame.getContentPane().add(lblNewLabel);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		textField_1.setColumns(10);
+		textField_1.setBounds(269, 549, 549, 45);
+		frame.getContentPane().add(textField_1);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		textField.setColumns(10);
+		textField.setBounds(269, 668, 549, 45);
+		frame.getContentPane().add(textField);
+		
+		textField_2 = new JPasswordField();
+		textField_2.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		textField_2.setColumns(10);
+		textField_2.setBounds(269, 796, 549, 45);
+		frame.getContentPane().add(textField_2);
+		
+		JButton btnNewButton = new JButton("Sign Up");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textField_3.getText();
+				String email = textField_1.getText();
+				String pass = textField.getText();
+				String pass2 = textField_2.getText();
+				
+				if (name.isEmpty() || email.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Please fill all fields.");
+		            return;
+		        }
+				
+				if (!pass.equals(pass2)) {
+		            JOptionPane.showMessageDialog(null, "Passwords do not match!");
+		            return;
+		        }
+				
+				int register = AccountDB.registerUser(name, email, pass);
+				
+				if (register > 0) {
+		        	JOptionPane.showMessageDialog(null, "Account Created Successfully!");
+		            LogIn.main(new String[]{});
+		            frame.dispose();
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Sorry, unable to create account!");
+		        }
+
+			}
+		});
+		btnNewButton.setForeground(new Color(28, 28, 28));
+		btnNewButton.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		btnNewButton.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(103, 0, 0)));
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setBounds(665, 883, 153, 45);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Open.main(new String[]{});
+				frame.dispose();
+			}
+		});
+		btnBack.setForeground(new Color(28, 28, 28));
+		btnBack.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		btnBack.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(103, 0, 0)));
+		btnBack.setBackground(Color.WHITE);
+		btnBack.setBounds(269, 883, 153, 45);
+		frame.getContentPane().add(btnBack);
+		
+		textField_3 = new JTextField();
+		textField_3.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 18));
+		textField_3.setColumns(10);
+		textField_3.setBounds(269, 432, 549, 45);
+		frame.getContentPane().add(textField_3);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Name :");
+		lblNewLabel_1_1.setFont(new Font("Montserrat Black", Font.PLAIN, 25));
+		lblNewLabel_1_1.setBounds(244, 378, 110, 25);
+		frame.getContentPane().add(lblNewLabel_1_1);
+    }
+}
