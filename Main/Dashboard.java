@@ -7,13 +7,23 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
@@ -25,16 +35,7 @@ import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JTextField;
-import java.awt.Window.Type;
-import javax.swing.JSeparator;
-import javax.swing.UIManager;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
+import com.mongodb.client.model.Filters;
 
 public class Dashboard {
 
@@ -81,6 +82,7 @@ public class Dashboard {
 	 */
 	private void initialize() {
 		frmLibmanage = new JFrame();
+		frmLibmanage.setIconImage(Toolkit.getDefaultToolkit().getImage(Dashboard.class.getResource("/mongoJava/photos/Libris_logo (2) (2).png")));
 		frmLibmanage.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLibmanage.setTitle("LibManage");
 		frmLibmanage.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -88,7 +90,6 @@ public class Dashboard {
 		frmLibmanage.setResizable(false);
 		frmLibmanage.setPreferredSize(new Dimension(1920, 1080));
 		frmLibmanage.setAutoRequestFocus(false);
-		frmLibmanage.setAlwaysOnTop(true);
 		frmLibmanage.setBounds(0, 0, 1940, 1080);
 		frmLibmanage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLibmanage.getContentPane().setLayout(null);
@@ -217,6 +218,14 @@ public class Dashboard {
 			}
 		});
 		
+		JLabel lblNewLabel_4_2 = new JLabel("\r");
+		lblNewLabel_4_2.setIcon(new ImageIcon(Dashboard.class.getResource("/mongoJava/photos/Libris_logo (2) (3).png")));
+		lblNewLabel_4_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_4_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4_2.setForeground(new Color(28, 28, 28));
+		lblNewLabel_4_2.setBounds(22, 37, 101, 97);
+		panel.add(lblNewLabel_4_2);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(101, 0, 1823, 150);
 		panel_1.setBackground(new Color(103, 0, 0));
@@ -315,6 +324,25 @@ public class Dashboard {
 		textField.setBounds(148, 194, 408, 27);
 		panel_2.add(textField);
 		textField.setColumns(10);
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+
+			    // Get entered Book ID
+			    String bookId = textField.getText();
+
+			    // Find book in MongoDB
+			    Document book = collection.find(Filters.eq("ID", bookId)).first();
+
+			    if (book != null) {
+			        String bookTitle = book.getString("Title");
+			        textField_1.setText(bookTitle);
+			    } else {
+			        textField_1.setText("");  // Clear if no match
+			    }
+			}
+		});
 		
 		JLabel lblNewLabel_5 = new JLabel("Transaction Form");
 		lblNewLabel_5.setForeground(new Color(28, 28, 28));
@@ -363,6 +391,14 @@ public class Dashboard {
 		panel_2.add(lblNewLabel_6_1_2);
 		
 		JButton btnNewButton = new JButton("Clear");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField_4.setText("");
+		        textField.setText("");
+		        textField_1.setText("");
+		        textField_2.setText("");
+			}
+		});
 		btnNewButton.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(103, 0, 0)));
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setForeground(new Color(28, 28, 28));
@@ -371,6 +407,26 @@ public class Dashboard {
 		panel_2.add(btnNewButton);
 		
 		JButton btnDone = new JButton("Done");
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				        String status = textField_4.getText();
+				        String bookId = textField.getText();
+				        String bookTitle = textField_1.getText();
+				        String studentName = textField_2.getText();
+				   
+				        int issue = TransactionDB.save(status, bookId, bookTitle, studentName);
+
+				        if (issue > 0) {
+				        	JOptionPane.showMessageDialog(null, "Book Issued Successfully!");
+				            Dashboard.main(new String[]{});
+				            frmLibmanage.dispose();
+				        } else {
+				            JOptionPane.showMessageDialog(null, "Sorry, unable to issue!");
+				        }
+
+				    }
+				});
+
 		btnDone.setForeground(new Color(28, 28, 28));
 		btnDone.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 15));
 		btnDone.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(103, 0, 0)));
@@ -505,7 +561,10 @@ public class Dashboard {
 		lblNewLabel_7_2.setBounds(21, 254, 262, 129);
 		panel_2_1.add(lblNewLabel_7_2);
 		
-		JLabel lblNewLabel_7_3 = new JLabel("<number>");
+		MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+		long total = collection.countDocuments();
+		
+		JLabel lblNewLabel_7_3 = new JLabel("Total Books: " + total);
 		lblNewLabel_7_3.setOpaque(true);
 		lblNewLabel_7_3.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_7_3.setHorizontalAlignment(SwingConstants.CENTER);
