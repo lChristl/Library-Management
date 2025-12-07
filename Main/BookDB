@@ -1,0 +1,46 @@
+package mongoJava;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
+
+public class BookDB {
+	public static int save(String id, String title, String author, int year, int avail, int transact) {
+				MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+
+					Document newBook = new Document()
+							.append("ID", id)
+							.append("Title", title)
+							.append("Author", author)
+							.append("Year", year)
+							.append("Available", avail)
+							.append("Transacted", transact);
+
+					collection.insertOne(newBook);
+
+					return 1;
+	}
+	
+	public static int delete(String callno) {
+	    int status = 0;
+	    try {
+	    	MongoCollection<Document> collection = DB.getDatabase().getCollection("BookList");
+	    	
+	        // Build the filter (Book ID = callno)
+	        Bson filter = Filters.eq("ID", callno);
+
+	        DeleteResult result = collection.deleteOne(filter);
+
+	        status = (int) result.getDeletedCount(); // returns 1 if deleted, 0 if not found
+	        
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+	    return status;
+	}
+	
+	
+}
