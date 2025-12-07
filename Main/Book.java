@@ -19,7 +19,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.bson.Document;
 
@@ -44,6 +48,8 @@ public class Book {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private JTextField textField_6;
+	
 
 	/**
 	 * Launch the application.
@@ -422,19 +428,20 @@ public class Book {
 		    if (firstDoc != null) {
 		        String[] allColumns = firstDoc.keySet().toArray(new String[0]);
 
-		        int newLength = allColumns.length - 2;
+		        int newLength = allColumns.length - 2; // remove _id and maybe another column
 		        column = new String[newLength];
 
 		        System.arraycopy(allColumns, 1, column, 0, newLength);
 		    }
 
 		    int rows = (int) collection.countDocuments();
-
 		    int cols = column.length;
+
 		    data = new String[rows][cols];
 
 		    MongoCursor<Document> cursor = collection.find().iterator();
 		    int count = 0;
+
 		    while (cursor.hasNext()) {
 		        Document doc = cursor.next();
 
@@ -448,37 +455,50 @@ public class Book {
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-		
-		table = new JTable(data,column);
+
+		// ✅ Use DefaultTableModel explicitly
+		DefaultTableModel model = new DefaultTableModel(data, column) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false; // disable editing
+		    }
+		};
+
+		table = new JTable(model);
+
+		// ✅ Row sorter MUST be attached after model creation
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		table.setRowSorter(sorter);
+
+		// ==================== UI Styling ======================
 		table.setBackground(new Color(255, 255, 255));
-		//sizes
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(80);
-		table.getColumnModel().getColumn(0).setMinWidth(80);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(300);
-		table.getColumnModel().getColumn(1).setMinWidth(350);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(2).setMinWidth(200);
-		
-		//column header color
-		table.getTableHeader().setFont(new Font("Monospaced", Font.BOLD, 18));
-		table.getTableHeader().setBackground(new Color(128, 0, 0));
-		table.getTableHeader().setForeground(Color.WHITE);
-		
 		table.setSelectionBackground(Color.LIGHT_GRAY);
 		table.setRowSelectionAllowed(false);
 		table.setRowHeight(25);
 		table.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		table.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		table.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
+
+		table.getTableHeader().setFont(new Font("Monospaced", Font.BOLD, 18));
+		table.getTableHeader().setBackground(new Color(128, 0, 0));
+		table.getTableHeader().setForeground(Color.WHITE);
+
+		// column width
+		if (table.getColumnCount() > 0) {
+		    table.getColumnModel().getColumn(0).setPreferredWidth(80);
+		}
+		if (table.getColumnCount() > 1) {
+		    table.getColumnModel().getColumn(1).setPreferredWidth(300);
+		}
+		if (table.getColumnCount() > 2) {
+		    table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		}
+
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setForeground(Color.BLACK);
-		scrollPane.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		scrollPane.setBackground(Color.LIGHT_GRAY);
-		scrollPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.DARK_GRAY));
-		scrollPane.setBounds(170, 285, 1722, 745);  // explicit size and position
+		scrollPane.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
+		scrollPane.setBounds(170, 285, 1722, 745);
+
 		frmLibmanage.getContentPane().add(scrollPane);
+
 		
 		JButton btnAddBook = new JButton("+ Add Book");
 		btnAddBook.addActionListener(new ActionListener() {
@@ -506,6 +526,45 @@ public class Book {
 		btnDeleteBook.setBackground(Color.WHITE);
 		btnDeleteBook.setBounds(367, 223, 166, 51);
 		frmLibmanage.getContentPane().add(btnDeleteBook);
+		
+		textField_6 = new JTextField();
+		textField_6.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 15));
+		textField_6.setColumns(10);
+		textField_6.setBounds(1465, 206, 427, 42);
+		frmLibmanage.getContentPane().add(textField_6);
+		textField_6.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				search();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				search();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				search();
+			}
+
+			private void search() {
+				String text = textField_6.getText().toLowerCase();
+				if (text.trim().length() == 0) {
+					sorter.setRowFilter(null);
+				} else {
+					sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + text, 0, 1, 2, 3)); // Search in Book Title
+																									// and Student
+																									// columns
+				}
+			}
+		});
+
+		
+		JLabel lblNewLabel_5 = new JLabel("Search :");
+		lblNewLabel_5.setFont(new Font("Montserrat Black", Font.PLAIN, 30));
+		lblNewLabel_5.setBounds(1295, 206, 160, 47);
+		frmLibmanage.getContentPane().add(lblNewLabel_5);
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 		    @Override
