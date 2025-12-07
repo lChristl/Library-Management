@@ -1,0 +1,42 @@
+package mongoJava;
+
+import org.bson.Document;
+
+import com.mongodb.client.MongoCollection;
+
+public class AccountDB{
+    public static int registerUser(String name, String email, String password) {
+
+    	try {
+    	MongoCollection<Document> collection = DB.getDatabase().getCollection("Accounts");
+
+        Document doc = new Document()
+                .append("name", name)
+                .append("email", email) 
+                .append("pass", password);
+
+        collection.insertOne(doc);
+        
+        return 1; 
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return 0;
+    }
+    	
+}
+    
+    public static boolean loginUser(String email, String password) {
+
+        MongoCollection<Document> collection = DB.getDatabase().getCollection("Accounts");
+
+        Document query = new Document()
+                .append("email", email)
+                .append("pass", password);
+
+        Document result = collection.find(query).first();
+
+        return result != null;
+    }
+    
+}
